@@ -4,18 +4,52 @@ import "log"
 
 func main() {
 
-	myVar := "horse"
+type User struct {
+	FirstName string
+	LastName string
+	Email string
+	Age int
+}
 
-	switch myVar {
-	case "cat":
-		log.Println("cat is set to ", myVar)
-	case "dog":
-		log.Println("cat is set to ", myVar)
-	case "fish":
-		log.Println("cat is set to ", myVar)
-	default:
-		log.Println("cat is something else  ")
-	}
+var users []User
+users = append(users,User{"John","smith","john@smith.com",30})
+users = append(users,User{"James","Bond","james@bond.com",40})
+users = append(users,User{"Penny","Money","Penny@money.com",50})
+
+for _,l:= range users{
+	log.Println(l.FirstName,l.LastName,l.Email,l.Age)
+}
+// var firstLine = "Once upon a midnight dreary"
+
+// for i,l:= range firstLine{
+// 	log.Println(i,":",l)
+// }
+
+// animals := make(map[string]string)
+// animals["dog"] ="Fido"
+// animals["cat"] ="Fluffy"
+
+// for animalType,animal:= range animals{
+// 	log.Println(animalType,animal)
+// }	
+// animals := []string{"one", "fish", "cat"}
+
+// for _,animal:= range animals{
+// 	log.Println(animal)
+// }
+
+	// myVar := "horse"
+
+	// switch myVar {
+	// case "cat":
+	// 	log.Println("cat is set to ", myVar)
+	// case "dog":
+	// 	log.Println("cat is set to ", myVar)
+	// case "fish":
+	// 	log.Println("cat is set to ", myVar)
+	// default:
+	// 	log.Println("cat is something else  ")
+	// }
 
 	// myNum :=100
 	// isTrue := false
