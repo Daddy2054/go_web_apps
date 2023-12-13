@@ -2,41 +2,80 @@ package main
 
 import "log"
 
+type Animal interface {
+	Says() string
+	NumberOfLegs() int
+}
+
+type Dog struct {
+	Name  string
+	Breed string
+}
+
+type Gorilla struct {
+	Name          string
+	Color         string
+	NumberOfTeeth int
+}
+
+func PrintInfo(a Animal) {
+	log.Println("This animal says ",  a.Says(), "and has ", a.NumberOfLegs(), "legs")
+}
+
+func (d *Dog) Says() string { return "Woof" }
+func (d *Dog) NumberOfLegs() int { return 4 }
+
+func (d *Gorilla) Says() string { return "Ugh" }
+func (d *Gorilla) NumberOfLegs() int { return 2 }
+
 func main() {
 
-type User struct {
-	FirstName string
-	LastName string
-	Email string
-	Age int
-}
+	dog := Dog{
+		Name:  "Samson",
+		Breed: "German Shephered",
+	}
+	PrintInfo(&dog)
 
-var users []User
-users = append(users,User{"John","smith","john@smith.com",30})
-users = append(users,User{"James","Bond","james@bond.com",40})
-users = append(users,User{"Penny","Money","Penny@money.com",50})
+	gorilla := Gorilla{
+		Name: "Jock",
+		Color: "grey",
+		NumberOfTeeth: 38,
+	}
+	PrintInfo(&gorilla)
 
-for _,l:= range users{
-	log.Println(l.FirstName,l.LastName,l.Email,l.Age)
-}
-// var firstLine = "Once upon a midnight dreary"
+	// type User struct {
+	// 	FirstName string
+	// 	LastName string
+	// 	Email string
+	// 	Age int
+	// }
 
-// for i,l:= range firstLine{
-// 	log.Println(i,":",l)
-// }
+	// var users []User
+	// users = append(users,User{"John","smith","john@smith.com",30})
+	// users = append(users,User{"James","Bond","james@bond.com",40})
+	// users = append(users,User{"Penny","Money","Penny@money.com",50})
 
-// animals := make(map[string]string)
-// animals["dog"] ="Fido"
-// animals["cat"] ="Fluffy"
+	// for _,l:= range users{
+	// 	log.Println(l.FirstName,l.LastName,l.Email,l.Age)
+	// }
+	// var firstLine = "Once upon a midnight dreary"
 
-// for animalType,animal:= range animals{
-// 	log.Println(animalType,animal)
-// }	
-// animals := []string{"one", "fish", "cat"}
+	// for i,l:= range firstLine{
+	// 	log.Println(i,":",l)
+	// }
 
-// for _,animal:= range animals{
-// 	log.Println(animal)
-// }
+	// animals := make(map[string]string)
+	// animals["dog"] ="Fido"
+	// animals["cat"] ="Fluffy"
+
+	// for animalType,animal:= range animals{
+	// 	log.Println(animalType,animal)
+	// }
+	// animals := []string{"one", "fish", "cat"}
+
+	// for _,animal:= range animals{
+	// 	log.Println(animal)
+	// }
 
 	// myVar := "horse"
 
