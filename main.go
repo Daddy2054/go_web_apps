@@ -3,8 +3,46 @@ package main
 import "log"
 
 func main() {
-	names := []string{"one", "fish", "cat"}
-	log.Println(names)
+
+	myVar := "horse"
+
+	switch myVar {
+	case "cat":
+		log.Println("cat is set to ", myVar)
+	case "dog":
+		log.Println("cat is set to ", myVar)
+	case "fish":
+		log.Println("cat is set to ", myVar)
+	default:
+		log.Println("cat is something else  ")
+	}
+
+	// myNum :=100
+	// isTrue := false
+
+	// if myNum > 99 && !isTrue {
+	// 	log.Println("myNum is greater than 99 and isTrue is set to true")
+
+	// }
+	// cat := "cat2"
+	// if cat == "cat" {
+	// 	log.Println("Cat is cat")
+
+	// } else {
+	// 	log.Println("Cat is not cat")
+	// }
+	// var isTrue bool
+
+	// isTrue = false
+
+	// if isTrue {
+	// 	log.Println("isTrue is", isTrue)
+
+	// } else {
+	// 	log.Println("isTrue is", isTrue)
+	// }
+	// names := []string{"one", "fish", "cat"}
+	// log.Println(names)
 
 	// var mySlice []string
 	// mySlice = append(mySlice, "James")
