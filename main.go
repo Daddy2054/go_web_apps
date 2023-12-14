@@ -1,163 +1,67 @@
 package main
 
 import (
-	"go_web_apps/helpers"
+	"encoding/json"
+	"fmt"
 	"log"
 )
 
-const numPool = 1000
-
-func CalculateValue(intChan chan int) {
-	randoNumber := helpers.RandomNumber(numPool)
-	intChan <- randoNumber
+type Person struct {
+	FirstName string `json:"first_name"`
+	LastName string `json:"last_name"`
+	HairColor string `json:"hair_color"`
+	HasDog bool `json:"has_dog"`
 }
+
 func main() {
-	intChan := make(chan int)
-	defer close(intChan)
+	myJson := `
+[
+    {
+        "first_name": "Clark",
+        "last_name": "Kent",
+        "hair_color": "black",
+        "has_dog": true
+    },
+    {
+        "first_name": "Bruce",
+        "last_name": "Wayne",
+        "hair_color": "black",
+        "has_dog": false
+    }
+]`
 
-	go CalculateValue(intChan)
+	var unmarshalled []Person
 
-	num := <-intChan
-	log.Println(num)
+	err := json.Unmarshal([]byte(myJson), &unmarshalled)
+	if err != nil {
+		log.Println("Error unmarshalling json", err)
+	}
+
+	log.Printf("unmarshalled: %v", unmarshalled)
+
+	// write json from a struct
+	var mySlice []Person
+
+	var m1 Person
+	m1.FirstName = "Wally"
+	m1.LastName = "West"
+	m1.HairColor = "red"
+	m1.HasDog = false
+
+	mySlice = append(mySlice, m1)
+
+	var m2 Person
+	m2.FirstName = "Diana"
+	m2.LastName = "Prince"
+	m2.HairColor = "black"
+	m2.HasDog = false
+
+	mySlice = append(mySlice, m2)
+
+	newJson, err := json.MarshalIndent(mySlice, "", "     ")
+	if err != nil {
+		log.Println("error marshalling", err)
+	}
+
+	fmt.Println(string(newJson))
 }
-
-// type Animal interface {
-// 	Says() string
-// 	NumberOfLegs() int
-// }
-
-// type Dog struct {
-// 	Name  string
-// 	Breed string
-// }
-
-// type Gorilla struct {
-// 	Name          string
-// 	Color         string
-// 	NumberOfTeeth int
-// }
-
-// func PrintInfo(a Animal) {
-// 	log.Println("This animal says ",  a.Says(), "and has ", a.NumberOfLegs(), "legs")
-// }
-
-// func (d *Dog) Says() string { return "Woof" }
-// func (d *Dog) NumberOfLegs() int { return 4 }
-
-// func (d *Gorilla) Says() string { return "Ugh" }
-// func (d *Gorilla) NumberOfLegs() int { return 2 }
-// dog := Dog{
-// 	Name:  "Samson",
-// 	Breed: "German Shephered",
-// }
-// PrintInfo(&dog)
-
-// gorilla := Gorilla{
-// 	Name: "Jock",
-// 	Color: "grey",
-// 	NumberOfTeeth: 38,
-// }
-// PrintInfo(&gorilla)
-
-// type User struct {
-// 	FirstName string
-// 	LastName string
-// 	Email string
-// 	Age int
-// }
-
-// var users []User
-// users = append(users,User{"John","smith","john@smith.com",30})
-// users = append(users,User{"James","Bond","james@bond.com",40})
-// users = append(users,User{"Penny","Money","Penny@money.com",50})
-
-// for _,l:= range users{
-// 	log.Println(l.FirstName,l.LastName,l.Email,l.Age)
-// }
-// var firstLine = "Once upon a midnight dreary"
-
-// for i,l:= range firstLine{
-// 	log.Println(i,":",l)
-// }
-
-// animals := make(map[string]string)
-// animals["dog"] ="Fido"
-// animals["cat"] ="Fluffy"
-
-// for animalType,animal:= range animals{
-// 	log.Println(animalType,animal)
-// }
-// animals := []string{"one", "fish", "cat"}
-
-// for _,animal:= range animals{
-// 	log.Println(animal)
-// }
-
-// myVar := "horse"
-
-// switch myVar {
-// case "cat":
-// 	log.Println("cat is set to ", myVar)
-// case "dog":
-// 	log.Println("cat is set to ", myVar)
-// case "fish":
-// 	log.Println("cat is set to ", myVar)
-// default:
-// 	log.Println("cat is something else  ")
-// }
-
-// myNum :=100
-// isTrue := false
-
-// if myNum > 99 && !isTrue {
-// 	log.Println("myNum is greater than 99 and isTrue is set to true")
-
-// }
-// cat := "cat2"
-// if cat == "cat" {
-// 	log.Println("Cat is cat")
-
-// } else {
-// 	log.Println("Cat is not cat")
-// }
-// var isTrue bool
-
-// isTrue = false
-
-// if isTrue {
-// 	log.Println("isTrue is", isTrue)
-
-// } else {
-// 	log.Println("isTrue is", isTrue)
-// }
-// names := []string{"one", "fish", "cat"}
-// log.Println(names)
-
-// var mySlice []string
-// mySlice = append(mySlice, "James")
-// mySlice = append(mySlice, "Bond")
-// mySlice = append(mySlice, "Penny")
-
-// log.Println(mySlice)
-
-// numbers := []int{1, 2, 3, 4, 5}
-
-// log.Println(numbers)
-// log.Println(numbers[0:2])
-// myMap := make(map[string]string)
-
-// myMap["dog"]="Simpson"
-// myMap["other-dog"]="Cassie"
-
-// log.Println(myMap["dog"])
-// log.Println(myMap["other-dog"])
-// var myString string
-// var myInt int
-
-// myString = "Hi"
-// myInt = 11
-
-// mySecondString := "another string"
-
-// log.Println(myString, mySecondString, myInt)
-// }
