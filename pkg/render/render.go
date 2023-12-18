@@ -9,8 +9,8 @@ import (
 )
 
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
-	//create a template cache
-	tc, err := createTemplateCache()
+	//get the template cache from the app config
+	tc, err := CreateTemplateCache()
 	if err != nil {
 		fmt.Println("error creating template cache")
 		return
@@ -36,7 +36,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 }
 
 
-func createTemplateCache() (map[string]*template.Template, error) {
+func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
 	pages, err := filepath.Glob("./templates/*.page.go.html")
