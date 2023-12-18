@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"go_web_apps/pkg/config"
+	"go_web_apps/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -19,8 +20,13 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+
+	return td
+}
+
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -37,7 +43,9 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	td = AddDefaultData(td)
+
+	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {
@@ -46,32 +54,37 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 }
 
-
+// CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
+
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./templates/*.page.go.html")
+	pages, err := filepath.Glob("./templates/*.page.tmpl")
 	if err != nil {
 		return myCache, err
 	}
-	// range through all files ending with *.page.tmpl
+
 	for _, page := range pages {
 		name := filepath.Base(page)
-		ts, err := template.New(name).ParseFiles(page)
+		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			return myCache, err
 		}
-		matches, err := filepath.Glob("./templates/*.layout.go.html")
+
+		matches, err := filepath.Glob("./templates/*.layout.tmpl")
 		if err != nil {
 			return myCache, err
 		}
+
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*.layout.go.html")
+			ts, err = ts.ParseGlob("./templates/*.layout.tmpl")
 			if err != nil {
 				return myCache, err
 			}
 		}
+
 		myCache[name] = ts
 	}
+
 	return myCache, nil
 }
